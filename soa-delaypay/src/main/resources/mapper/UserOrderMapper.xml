@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pay.mapper.UserOrderMapper">
+
+    <resultMap id="UserOrderMapper" type="com.pay.entity.UserOrder">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="is_active" jdbcType="INTEGER" property="isActive" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        insert into user_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">
+                id,
+            </if>
+            <if test="orderNo != null ">
+                order_no,
+            </if>
+            <if test="userId != null ">
+                user_id,
+            </if>
+            <if test="status != null ">
+                status,
+            </if>
+            <if test="isActive != null ">
+                is_active,
+            </if>
+            <if test="createTime != null ">
+                create_time,
+            </if>
+            <if test="updateTime != null ">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">
+                #{id},
+            </if>
+            <if test="orderNo != null ">
+                #{orderNo},
+            </if>
+            <if test="userId != null ">
+                #{userId},
+            </if>
+            <if test="status != null ">
+                #{status},
+            </if>
+            <if test="isActive != null ">
+                #{isActive},
+            </if>
+            <if test="createTime != null ">
+                #{createTime},
+            </if>
+            <if test="updateTime != null ">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByIdAndStatus" resultMap="UserOrderMapper">
+        select * from user_order
+        <where>
+          id = #{id} and status = #{status}
+        </where>
+    </select>
+
+    <update id="updateOrderActiveById" useGeneratedKeys="true">
+        update user_order set is_active = #{isActive}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+</mapper>
